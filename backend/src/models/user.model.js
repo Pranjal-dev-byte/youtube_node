@@ -1,5 +1,6 @@
 import mongoose, { Schema } from "mongoose";
-import bcrypt from "bcrypt"
+import bcrypt from "bcrypt";
+import jwt from"jsonwebtoken";
 
 const userSchema = new Schema({
     username: {
@@ -28,6 +29,7 @@ const userSchema = new Schema({
     }, 
     watchHistory: [
         {
+            // *Similar To Foreign Key reference
             type: Schema.ObjectId,
             ref: "Video"
         }
@@ -45,6 +47,7 @@ const userSchema = new Schema({
     }
 )
 
+// *Pre hook used to trigger some methods just before save
 userSchema.pre("save", async function (next) {
     if (!this.isModified("password")) return next();
     this.password = await bcrypt.hash(this.password, 10)
