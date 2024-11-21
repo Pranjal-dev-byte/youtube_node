@@ -17,7 +17,7 @@ const uploadResult = async (localFilePath) => {
                 resource_type: 'auto',
             }
             )
-        console.log(res.url)
+        fs.unlinkSync(localFilePath);
         return res
     } catch (error) {
         fs.unlinkSync(localFilePath);
@@ -25,4 +25,14 @@ const uploadResult = async (localFilePath) => {
     }
 }
 
-export { uploadResult }
+const deleteOldAvatar = async(avatarUrl)=>{
+    try {
+        const publicId = avatarUrl.split("/").pop().split(".")[0];
+        await cloudinary.uploader.destroy(publicId);
+        console.log("Old avatar/coverImage deleted from Cloudinary:", publicId);
+    } catch (error) {
+        console.error("Failed to delete old avatar/coverImage from Cloudinary:", error);
+    }
+}
+
+export { uploadResult,deleteOldAvatar }
