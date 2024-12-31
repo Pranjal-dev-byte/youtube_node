@@ -291,4 +291,14 @@ const updateUserCoverImage = asyncHandler(async(req,res)=>{
     return res.status(200).json(200,user,"Cover image updated successfully")
 })
 
-export {registerUser, loginUser, logoutUser, refreshAccessToken, changeCurrPass, getCurrUser, updateAccDetails, updateUserAvatar, updateUserCoverImage  }
+const getUserChannelProfile = asyncHandler(async(req,res)=>{
+    const {username} = req.params;
+    
+    if(!(username?.trim()?.length>0)){
+        throw new ApiError(400,"Username is missing");
+    }
+    
+    const channel = await User.aggregate([])
+})
+
+export {registerUser, loginUser, logoutUser, refreshAccessToken, changeCurrPass, getCurrUser, updateAccDetails, updateUserAvatar, updateUserCoverImage, getUserChannelProfile  }
